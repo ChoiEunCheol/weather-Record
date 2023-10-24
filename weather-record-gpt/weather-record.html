@@ -9,5 +9,40 @@
     <p>현재 위치: <span id="location"></span></p>
     <p>현재 날씨: <span id="weather"></span></p>
     <button id="getWeather">날씨 가져오기</button>
+<script>
+    window.addEventListener('load', () => {
+    const locationElement = document.getElementById('location');
+    const weatherElement = document.getElementById('weather');
+    const getWeatherButton = document.getElementById('getWeather');
+    const weatherRecords = [];
+
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            locationElement.textContent = "위치 정보를 지원하지 않는 브라우저입니다.";
+        }
+    }
+
+    function showPosition(position) {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        locationElement.textContent = `위도: ${latitude}, 경도: ${longitude}`;
+        getWeather(latitude, longitude);
+    }
+
+    function getWeather(latitude, longitude) {
+        // 날씨 정보를 가져오는 API를 호출하여 날씨 정보를 가져옵니다.
+        // 이 부분에서는 실제 API를 사용하거나, 샘플 데이터를 사용할 수 있습니다.
+        // 날씨 정보를 받아서 weatherElement에 표시하고, 기록합니다.
+        const weatherInfo = `날씨 정보 (${latitude}, ${longitude})`;
+        weatherElement.textContent = weatherInfo;
+        weatherRecords.push(weatherInfo);
+    }
+
+    getWeatherButton.addEventListener('click', getLocation);
+});
+
+</script>
 </body>
 </html>
