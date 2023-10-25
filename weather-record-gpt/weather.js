@@ -8,6 +8,12 @@ document.addEventListener("DOMContentLoaded", () => {
             const latitude = position.coords.latitude;
             const longitude = position.coords.longitude;
 
+            // 위치 정보를 표시할 HTML 엘리먼트 선택
+            const locationInfo = document.getElementById("location-info");
+
+            // 위치 정보를 표시
+            locationInfo.textContent = `현재 위치: 위도 ${latitude}, 경도 ${longitude}`;
+
             // API 엔드포인트 URL
             const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
 
@@ -29,4 +35,5 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     } else {
         console.error("브라우저에서 위치 정보를 가져올 수 없습니다.");
-    }});
+    }
+});
