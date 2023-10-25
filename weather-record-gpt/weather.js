@@ -11,18 +11,64 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
 
+            // 그래프 요소 선택
+            const chartCanvas = document.getElementById("temperature-chart");
+
+            // 데이터 배열 초기화
+            const data = [];
+
+            // 그래프 설정
+            const ctx = chartCanvas.getContext("2d");
+            const chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: '온도 (°C)',
+                        data: [],
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 2,
+                        fill: false,
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            beginAtZero: true
+                        },
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
             function updateWeatherData() {
                 fetch(apiUrl)
                     .then((response) => response.json())
-                    .then((data) => {
-                        const weatherInfo = document.getElementById("weather-info");
-                        const temperature = Math.round(data.main.temp - 273.15);
-                        const description = data.weather[0].description;
+                    .then((weatherData) => {
+                        const temperature = Math.round(weatherData.main.temp - 273.15);
 
                         const now = new Date();
+
+                        // 데이터 배열에 시간과 온도 추가
+                        data.push({ time: now.toLocaleString(), temperature });
+
+                        // 데이터 배열 길이가 168을 초과하는 경우, 오래된 데이터 삭제
+                        if (data.length > 168) {
+                            data.shift();
+                        }
+
+                        // 그래프 데이터 업데이트
+                        chart.data.labels = data.map(entry => entry.time);
+                        chart.data.datasets[0].data = data.map(entry => entry.temperature);
+                        chart.update();
+
+                        // 나머지 업데이트 코드는 이전 코드와 동일
+                        const weatherInfo = document.getElementById("weather-info");
+                        const description = weatherData.weather[0].description;
                         const currentTimeInfo = document.getElementById("current-time");
                         currentTimeInfo.textContent = `갱신 시각: ${now.toLocaleString()}`;
-
                         const weatherText = `현재 온도: ${temperature}°C, 날씨: ${description}`;
                         weatherInfo.textContent = weatherText;
 
@@ -44,7 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             updateWeatherData();
 
-            setInterval(updateWeatherData, 1000); // 10초마다 요청을 갱신 (1000ms = 1초)
+            setInterval(updateWeatherData, 10000); // 10초마다 요청을 갱신
         });
     } else {
         console.error("브라우저에서 위치 정보를 가져올 수 없습니다.");

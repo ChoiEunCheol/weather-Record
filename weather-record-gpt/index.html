@@ -1,17 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>날씨 정보</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
     <h1>현재 날씨 정보</h1>
     <div id="current-time"></div>
     <div id="weather-info"></div>
     <div id="location-info"></div>
 
+    <div id="graph-container">
+        <canvas id="temperature-chart"></canvas>
+    </div>
     <ul id="weather-list"></ul>
+
     <script src="weather.js"></script>
 </body>
+
 </html>
