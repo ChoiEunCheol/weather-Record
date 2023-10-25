@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>로컬 스토리지 예제</title>
+</head>
+<body>
+  <script>
+    // 데이터 저장
+    localStorage.setItem("username", "John");
+    localStorage.setItem("username", "aaaa");
+    localStorage.setItem("username", "bbbb");
+
+    // 데이터 가져오기
+    const username = localStorage.getItem("username");
+
+    console.log(`사용자 이름: ${username}`);
+  </script>
+</body>
+</html>
