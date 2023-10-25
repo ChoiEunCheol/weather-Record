@@ -1,14 +1,14 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
-const PORT = 8000;
+const PORT = 8080;
 
 const server = http.createServer((req, res) => {
     const { url } = req;
 
     if (url === '/') {
-        // 루트 경로일 경우 index.html 파일을 제공
-        const filePath = path.join(__dirname, 'public', 'index.html');
+        // 루트 경로일 경우 index.html 파일 제공
+        const filePath = path.join(__dirname, 'index.html');
         fs.readFile(filePath, (err, data) => {
             if (err) {
                 res.writeHead(500);
@@ -20,7 +20,7 @@ const server = http.createServer((req, res) => {
         });
     } else if (url === '/weather.js') {
         // weather.js 파일 제공
-        const filePath = path.join(__dirname, 'public', 'weather.js');
+        const filePath = path.join(__dirname, 'weather.js');
         fs.readFile(filePath, (err, data) => {
             if (err) {
                 res.writeHead(500);
