@@ -14,6 +14,11 @@ document.addEventListener("DOMContentLoaded", () => {
             // 위치 정보를 표시
             locationInfo.textContent = `현재 위치: 위도 ${latitude}, 경도 ${longitude}`;
 
+            // 현재 시간을 가져오기
+            const now = new Date();
+            const currentTimeInfo = document.getElementById("current-time");
+            currentTimeInfo.textContent = `갱신 시각: ${now.toLocaleString()}`;
+
             // API 엔드포인트 URL
             const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
 
@@ -28,6 +33,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     const weatherText = `현재 온도: ${temperature}°C, 날씨: ${description}`;
                     weatherInfo.textContent = weatherText;
+
+                    // 새로운 날씨 정보를 리스트에 추가
+                    const weatherList = document.getElementById("weather-list");
+                    const li = document.createElement("li");
+                    li.textContent = `갱신 시각: ${now.toLocaleString()}, ${weatherText}`;
+                    weatherList.appendChild(li);
                 })
                 .catch((error) => {
                     console.error("날씨 정보를 불러오는 중 오류가 발생했습니다.", error);
